@@ -8,4 +8,5 @@ export interface PizzaItemInterface {
   description: string;
   image_url: string;
   available_in_pizzerias: number[];
+  quantityCount?: number;
 }
