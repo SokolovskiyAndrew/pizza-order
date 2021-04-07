@@ -1,1 +1,45 @@
-<p>pizza-order-home works!</p>
+<mat-form-field [style.width.px]="320">
+  <mat-label>Choose pizzeria</mat-label>
+  <mat-select [formControl]="selectFormControl">
+    <mat-option *ngFor="let pizzeria of pizzeriasList" [value]="pizzeria?.id">
+      <span>
+        {{ pizzeria?.name }}
+      </span>
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<ul class="pizza__list">
+  <mat-card class="pizza__list__card" *ngFor="let pizza of currentPizzaList" [id]="pizza.id">
+    <mat-card-header>
+      <mat-card-title>{{ pizza.name }}</mat-card-title>
+      <mat-card-subtitle>{{ pizza.price }}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="{{ pizza.image_url }}" alt="Photo of pizza" class="pizza__list__card__img" />
+    <mat-card-content>
+      <p>
+        {{ pizza.description }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="pizza__list__card__counter">
+        <button [disabled]="pizza.quantityCount === 1" mat-icon-button (click)="removeQuantity(pizza.id)">
+          <mat-icon>remove</mat-icon>
+        </button>
+        <span>{{ pizza.quantityCount }}</span>
+        <button mat-icon-button (click)="addQuantity(pizza.id)">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <button mat-raised-button (click)="addPizzaToOrder(pizza.id)">Add to Order</button>
+    </mat-card-actions>
+  </mat-card>
+</ul>
+<div>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="this.selectFormControl.invalid || pizzaListOrder.length === 0"
+    (click)="makeOrder()"
+    >Make Order</button
+  >
+</div>
